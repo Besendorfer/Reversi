@@ -8,5 +8,11 @@
   },
   "keywords": [
     "reversi"
-  ]
+  ],
+  "dependencies": {
+    "js-priority-queue": "^0.1"
+  },
+  "repository": "git@github.com:Besendorfer/Reversi.git",
+  "licence": "MIT",
+  "private": true
 }

@@ -10,13 +10,11 @@ class Board {
 			return	 Array.from({ length: dimension }).map((row, rIndex) => {
 				row = new Tile();
 
-				if (cIndex === dimension / 2 && rIndex === dimension / 2 - 1)
+				if ((cIndex === dimension / 2 && rIndex === dimension / 2 - 1) ||
+					(cIndex === dimension / 2 - 1 && rIndex === dimension / 2))
 					row.color = 'black';
-				else if (cIndex === dimension / 2 - 1 && rIndex === dimension / 2)
-					row.color = 'black';
-				else if (cIndex === dimension / 2 && rIndex === dimension / 2)
-					row.color = 'white';
-				else if (cIndex === dimension / 2 - 1 && rIndex === dimension / 2 - 1)
+				else if ((cIndex === dimension / 2 && rIndex === dimension / 2) ||
+						 (cIndex === dimension / 2 - 1 && rIndex === dimension / 2 - 1))
 					row.color = 'white';
 
 				return row;

@@ -1,6 +1,6 @@
 'use strict';
 
-var Error = require('./Error.js') || {};
+var Error = require('./Error.js');
 
 class BoardDimensionError extends Error {
 	constructor(message) {

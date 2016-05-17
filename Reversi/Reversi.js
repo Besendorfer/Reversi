@@ -1,11 +1,13 @@
 'use strict';
 
-var Board = require('./Board/Board.js') || {};
-var BoardDimensionError = require('./Error/BoardDimensionError.js') || {};
+var Board = require('./Board/Board.js');
+var BoardDimensionError = require('./Error/BoardDimensionError.js');
 
 // Should this instead be called the 'Game' class?
 class Reversi {
 	constructor(dimension) {
+		if (dimension > 10)
+			throw new BoardDimensionError('Must give a dimension 10 or less');
 		if (dimension % 2 !== 0)
 			throw new BoardDimensionError('Must give an even dimension.');
 

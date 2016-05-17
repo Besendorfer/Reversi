@@ -7,10 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "reversi",
-    "BYU",
-    "CS",
-    "470"
-  ],
-  "author": "Teancum Besendorfer"
+    "reversi"
+  ]
 }

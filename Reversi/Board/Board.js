@@ -6,8 +6,8 @@ class Board {
 	constructor(dimension) {
 		this.dimension = dimension;
 
-		this.tiles = Array.from({ length: dimension }).map((column, cIndex) => {
-			return	 Array.from({ length: dimension }).map((row, rIndex) => {
+		this.tiles = Array.from({ length: dimension }).map((row, rIndex) => {
+			return	 Array.from({ length: dimension }).map((col, cIndex) => {
 				return new Tile();
 			});
 		});

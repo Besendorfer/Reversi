@@ -1,6 +1,6 @@
 'use strict';
 
-let Tile = require('./Tile.js');
+const Tile = require('./Tile.js');
 
 class Board {
 	constructor(dimension) {

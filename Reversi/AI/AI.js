@@ -1,6 +1,6 @@
 'use strict';
 
-let MinMaxAB = require('./MinMaxAB.js');
+const MinMaxAB = require('./MinMaxAB.js');
 
 class AI {
 	constructor(board) {

@@ -9,5 +9,5 @@ try {
 	Reversi.run();
 
 } catch (e) {
-	e.printError();
+	console.error(e.message);
 }

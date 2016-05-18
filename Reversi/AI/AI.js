@@ -16,7 +16,7 @@ class AI {
 	heuristic(board) {
 		return board.tiles.reduce(function (total, row) {
 			return total + row.reduce(function (total, tile) {
-				return tile.getValue();
+				return total + tile.getValue();
 			}, 0);
 		}, 0);
 	}

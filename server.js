@@ -4,7 +4,7 @@ var Reversi = require('./Reversi/Reversi.js');
 var BoardDimensionError = require('./Reversi/Error/BoardDimensionError.js');
 
 try {
-	Reversi = new Reversi(10);
+	Reversi = new Reversi(8);
 
 	Reversi.run();
 }

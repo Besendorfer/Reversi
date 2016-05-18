@@ -7,8 +7,7 @@ try {
 	Reversi = new Reversi(8);
 
 	Reversi.run();
-}
-catch (e) {
-	if (e instanceof BoardDimensionError)
-		e.printError();
+
+} catch (e) {
+	e.printError();
 }

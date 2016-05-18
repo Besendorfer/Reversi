@@ -1,5 +1,6 @@
 'use strict';
 
+let AI = require('./AI/AI.js');
 let Board = require('./Board/Board.js');
 let BoardDimensionError = require('./Error/BoardDimensionError.js');
 
@@ -12,6 +13,7 @@ class Reversi {
 			throw new BoardDimensionError('Must give an even dimension.');
 
 		this.board = new Board(dimension);
+		this.AI = new AI(this.board);
 	}
 
 	run() {

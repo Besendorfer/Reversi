@@ -54,7 +54,7 @@ class Work {
 		this.inheritValues(parent || DEFAULT);
 
 		this.children = (function* getChildren() {
-			for (let childNode of nodeGen(this.node)) {
+			for (let childNode of nodeGen(this.node, this.myTurn)) {
 				yield new Work(this, childNode);
 			}
 		})();

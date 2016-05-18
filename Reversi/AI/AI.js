@@ -8,7 +8,7 @@ class AI {
 		this.MinMaxAB = new MinMaxAB(this.boardGen(), this.heuristic.bind(this));
 	}
 
-	*boardGen(board) {
+	*boardGen(board, myTurn) {
 		newBoard = null; // TODO: generate next possible board
 		yield newBoard;
 	}

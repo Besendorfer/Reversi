@@ -14,5 +14,8 @@
   },
   "repository": "git@github.com:Besendorfer/Reversi.git",
   "licence": "MIT",
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=6.1"
+  }
 }

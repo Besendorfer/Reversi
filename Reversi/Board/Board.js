@@ -16,6 +16,14 @@ class Board {
 	getTiles() {
 		return this.tiles;
 	}
+
+	print() {
+		return this.tiles.reduce(function (total, row) {
+			return total + row.reduce(function (total, tile) {
+				return total + tile.print();
+			}, '\n');
+		}, '');
+	}
 }
 
 module.exports = Board;

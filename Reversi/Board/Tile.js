@@ -2,7 +2,7 @@
 
 class Tile {
 	constructor() {
-		this.color = undefined;
+		this.color = null;
 	}
 }
 

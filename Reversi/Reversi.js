@@ -1,7 +1,7 @@
 'use strict';
 
-var Board = require('./Board/Board.js');
-var BoardDimensionError = require('./Error/BoardDimensionError.js');
+let Board = require('./Board/Board.js');
+let BoardDimensionError = require('./Error/BoardDimensionError.js');
 
 // Should this instead be called the 'Game' class?
 class Reversi {

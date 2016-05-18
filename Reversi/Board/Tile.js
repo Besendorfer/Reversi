@@ -6,8 +6,8 @@ class Tile {
 	}
 
 	getValue() {
-		return +(this.color == "white")
-		       -(this.color == "black");
+		return +(this.color == 'white')
+		       -(this.color == 'black');
 	}
 }
 

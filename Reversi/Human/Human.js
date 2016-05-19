@@ -1,5 +1,6 @@
 'use strict';
 
+const Prompt = require('./../Prompt/Prompt.js');
 const Player = require('./../Player/Player.js');
 
 class Human extends Player {

@@ -10,7 +10,7 @@ class Tile {
 		       -(this.color == 'black');
 	}
 
-	print() {
+	toString() {
 		switch (this.color) {
 			case 'white': return 'w';
 			case 'black': return 'b';

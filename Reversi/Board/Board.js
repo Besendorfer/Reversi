@@ -22,10 +22,10 @@ class Board {
 		return this.tiles;
 	}
 
-	print() {
+	toString() {
 		return this.tiles.reduce(function (total, row) {
 			return total + row.reduce(function (total, tile) {
-				return total + tile.print();
+				return total + tile.toString();
 			}, '\n');
 		}, '');
 	}

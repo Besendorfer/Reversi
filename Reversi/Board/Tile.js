@@ -6,16 +6,12 @@ class Tile {
 	}
 
 	getValue() {
-		return +(this.color == 'white')
-		       -(this.color == 'black');
+		return +(this.color == 'w')
+		       -(this.color == 'b');
 	}
 
 	toString() {
-		switch (this.color) {
-			case 'white': return 'w';
-			case 'black': return 'b';
-			default: return '.';
-		}
+		return this.color || '.';
 	}
 }
 

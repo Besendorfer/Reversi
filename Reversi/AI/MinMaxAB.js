@@ -13,9 +13,9 @@ class MinMaxAB {
 		return bestSoFar.bestChild && bestSoFar.bestChild.node;
 	}
 
-	beginCalc(cb, rootNode, depthLimit, dontStop) {
+	beginCalc(cb, rootNode, depthLimit, stopAt = -1) {
 		this.depthLimit = depthLimit;
-		this.dontStop = dontStop;
+		this.stopAt = stopAt;
 		this.onStop = cb;
 		this.workStack = [];
 		this.rootWork = new Work(this.nodeGen, null, rootNode, this.depthLimit);
@@ -28,9 +28,9 @@ class MinMaxAB {
 		let work = this.workStack.pop();
 		if (work === undefined) {
 			this.finishedWork = this.rootWork;
-			if (this.dontStop) {
+			if (this.depthLimit < this.stopAt) {
 				process.stdout.write('\rI\'ve thought of ' + this.depthLimit + ' moves into the future');
-				this.beginCalc(this.onStop, this.rootWork.node, this.depthLimit + 1, true);
+				this.beginCalc(this.onStop, this.rootWork.node, this.depthLimit + 1, this.stopAt);
 			} else {
 				this.stopCalc();
 			}

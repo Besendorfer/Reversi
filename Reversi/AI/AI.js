@@ -44,13 +44,23 @@ class AI extends Player {
 
 	takeTurn(cb) {
 		console.log('\n' + this.color + ': Begins thinking');
-		console.log('Depth limit: ' + (this.depth === 0 ? 'many' : this.depth));
+		let maxDepth = this.depth;
+		if (this.depth === 0) {
+			maxDepth = this.board.dimension * this.board.dimension - this.board.numDiscs;
+		}
+		console.log('Depth limit: ' + maxDepth);
 		this.MinMaxAB.beginCalc((bestNode) => {
+			console.log();
 			clearTimeout(this.timeout);
-			console.log(this.color + ': With my intellect, I choose this spot');
-			this.board.placeDisc(this.color, bestNode.move);
+			if (bestNode == null) {
+				console.log(this.color + ': I cannot move! I pass.');
+				this.board.changeTurn();
+			} else {
+				console.log(this.color + ': With my intellect, I choose this spot');
+				this.board.placeDisc(this.color, bestNode.move);
+			}
 			cb();
-		}, this.board, this.depth, this.depth === 0);
+		}, this.board, this.depth, maxDepth);
 
 		this.timeout = setTimeout(() => { console.log('\ntimes up!'); this.MinMaxAB.stopCalc() }, 500);
 	}

@@ -35,6 +35,10 @@ class MinMaxAB {
 
 		let childWork = work.children.next().value;
 		if (childWork == undefined) {
+			if (!work.hadChild) {
+				// the end of the game
+				work.χ = this.heuristics[+work.myTurn](work.node) * Number.POSITIVE_INFINITY;
+			}
 			this.calcLoop = setImmediate(() => this.calc());
 			return;
 		}
@@ -59,10 +63,12 @@ class Work {
 	constructor(nodeGen, parent, node) {
 		this.parent = parent;
 		this.node = node;
+		this.hadChild = false;
 		this.inheritValues(parent || Work.DEFAULT);
 
 		this.children = (function* getChildren() {
 			for (let childNode of nodeGen(this.node, this.myTurn)) {
+				this.hadChild = true;
 				yield new Work(nodeGen, this, childNode);
 			}
 		}.bind(this))();
@@ -81,7 +87,7 @@ class Work {
 	}
 
 	set χ(newχ) {
-		if (this.χ == newχ)
+		if (this.χ == newχ && Number.isFinite(newχ))
 			return this.χ;
 
 		this[['α', 'β'][+!this.myTurn]] = newχ;
@@ -96,7 +102,7 @@ class Work {
 		let limiter = [Math.max, Math.min][+!this.parent.myTurn];
 		let originalχ = this.parent.χ;
 		this.parent.χ = limiter(originalχ, this.χ);
-		if (this.parent.χ != originalχ)
+		if (this.parent.χ != originalχ || !Number.isFinite(this.parent.χ))
 			this.parent.bestChild = this;
 
 		if (this.parent.β <= this.parent.α)

@@ -16,6 +16,8 @@ class Board {
 				return new Tile();
 			});
 		});
+
+		this.currentTurn = 'b';
 	}
 
 	getTiles() {

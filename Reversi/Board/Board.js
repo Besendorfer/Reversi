@@ -137,14 +137,25 @@ class Board {
 	placeDisc(color, loc) {
 		let succeeded = this.isValidMove(color, loc, true);
 		if (succeeded)
-			this.currentTurn = this.currentTurn === 'b' ? 'w' : 'b';
+			this.changeTurn();
 
 		return succeeded;
 	}
 
+	changeTurn() {
+		return this.currentTurn = this.currentTurn === 'b' ? 'w' : 'b';
+	}
+
 	isGameOver() {
-		// TODO: return if game is over
-		return false;
+		for (let i = 0; i < this.dimension; i++) {
+			for (let j = 0; j < this.dimension; j++) {
+				if (this.isValidMove('w', [ i, j ]) ||
+					this.isValidMove('b', [ i, j ]))
+					return false;
+			}
+		}
+
+		return true;
 	}
 }
 

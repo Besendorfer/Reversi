@@ -5,59 +5,67 @@ class MinMaxAB {
 		this.heuristics = [minHeuristic, maxHeuristic];
 		this.workStack = [];
 		this.rootWork = null;
+		this.nodeGen = nodeGen;
 	}
 
 	getBestMove() {
-		return this.rootWork.bestChild.node;
+		return this.rootWork.bestChild && this.rootWork.bestChild.node;
 	}
 
-	beginCalc(rootNode) {
+	beginCalc(cb, rootNode) {
+		this.onStop = cb;
 		this.workStack = [];
-		this.rootWork = new Work(null, rootNode);
+		this.rootWork = new Work(this.nodeGen, null, rootNode);
 		this.workStack.push(this.rootWork);
-		calc();
+		this.calc();
 	}
 
 	calc() {
 		let work = this.workStack.pop();
-		if (work !== undefined) {
-			stopCalc();
+		if (work === undefined) {
+			this.stopCalc();
 			return;
 		}
 
 		if (work.depth == 0) {
-			work.χ = this.heuristic[work.myTurn](work.node);
+			work.χ = this.heuristics[+work.myTurn](work.node);
+			this.calcLoop = setImmediate(() => this.calc());
 			return;
 		}
 
-		let childWork = work.children.next();
+		let childWork = work.children.next().value;
 		if (childWork == undefined) {
+			this.calcLoop = setImmediate(() => this.calc());
 			return;
 		}
 
 		this.workStack.push(work);
 		this.workStack.push(childWork);
 
-		this.calcLoop = setImmediate(() => this.calculate());
+		this.calcLoop = setImmediate(() => this.calc());
 	}
 
 	stopCalc() {
 		clearImmediate(this.calcLoop);
+		if (this.onStop) {
+			this.onStop(this.getBestMove());
+			this.onStop = null;
+		}
 	}
 }
 
 class Work {
 
-	constructor(parent, node) {
+	constructor(nodeGen, parent, node) {
 		this.parent = parent;
 		this.node = node;
-		this.inheritValues(parent || DEFAULT);
+		this.inheritValues(parent || Work.DEFAULT);
 
 		this.children = (function* getChildren() {
 			for (let childNode of nodeGen(this.node, this.myTurn)) {
-				yield new Work(this, childNode);
+				yield new Work(nodeGen, this, childNode);
 			}
-		})();
+		}.bind(this))();
 	}
 
 	inheritValues(parent) {
@@ -77,12 +85,15 @@ class Work {
 			return this.χ;
 
 		this[['α', 'β'][+!this.myTurn]] = newχ;
-		propagate();
+		this.propagate();
 		return newχ;
 	}
 
 	propagate() {
-		limiter = [Math.max, Math.min][+!this.parent.myTurn];
+		if (this.parent == null)
+			return;
+
+		let limiter = [Math.max, Math.min][+!this.parent.myTurn];
 		let originalχ = this.parent.χ;
 		this.parent.χ = limiter(originalχ, this.χ);
 		if (this.parent.χ != originalχ)
@@ -97,7 +108,7 @@ Work.DEFAULT = {
 	myTurn: false,
 	α: Number.NEGATIVE_INFINITY,
 	β: Number.POSITIVE_INFINITY,
-	depth: 4
+	depth: 2
 };
 
 module.exports = MinMaxAB;

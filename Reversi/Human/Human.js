@@ -10,14 +10,13 @@ class Human extends Player {
 
 	takeTurn(cb) {
 		Prompt.askPiece((x, y) => {
-			if (!this.board.validMove(this.color, [x, y])) {
+			if (!this.board.placeDisc(this.color, [x, y])) {
 				console.error('Invalid location');
 				return this.takeTurn(cb);
 			}
 
-			this.board.placeDisc(this.color, [x, y]);
 			return cb();
-		});
+		}, this.board.currentTurn);
 	}
 }
 

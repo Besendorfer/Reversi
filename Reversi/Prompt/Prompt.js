@@ -69,9 +69,9 @@ class Prompt {
 		return Prompt.ask(parseAnswer, 'What color would player 1 like to be?', ['black', 'white']);
 	}
 
-	static askPiece(cb) {
-		readline.question('Where would you like to place your piece? [x,y] ', (answer) => {
-			answer = answer.split(',').map(() => Number.parseInt(answer[0], 10));
+	static askPiece(cb, currentTurn) {
+		readline.question(currentTurn + ': Where would you like to place your piece? [x,y] ', (answer) => {
+			answer = answer.split(',').map((s) => Number.parseInt(s, 10));
 			if (answer.length === 2 && !isNaN(answer[0]) && !isNaN(answer[1]))
 				return cb(answer[0], answer[1]);
 

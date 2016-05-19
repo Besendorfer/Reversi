@@ -22,10 +22,6 @@ class Board {
 		this.currentTurn = 'b';
 	}
 
-	getTiles() {
-		return this.tiles;
-	}
-
 	toString() {
 		return this.tiles.reduce(function (total, row, rowi) {
 			return total + row.reduce(function (total, tile) {

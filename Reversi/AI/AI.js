@@ -26,8 +26,8 @@ class AI extends Player {
 	*boardGen(board, myTurn) {
 		let discColor = myTurn ? this.color : this.opponentColor;
 
-		for (let i = 0; i < board.getTiles().length; i++) {
-			for (let j = 0; j < board.getTiles().length; j++) {
+		for (let i = 0; i < board.dimension; i++) {
+			for (let j = 0; j < board.dimension; j++) {
 				if (board.isValidMove(discColor, [ i, j ]))
 					yield this.createTestBoard(board, discColor, [ i, j ]);
 			}

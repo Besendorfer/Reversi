@@ -24,13 +24,16 @@ class Reversi {
 		this.gameLoop.push(this.reloop(this.gameLoop));
 
 		this.startGame = [
-			Prompt.askDimensions.bind(Prompt),
+			// Prompt.askDimensions.bind(Prompt),
+			(cb) => cb(8),
 			this.setDimensions.bind(this),
 
 			Prompt.askPlayers.bind(Prompt),
+			// (cb) => cb(1),
 			this.setPlayers.bind(this),
 
-			Prompt.askColor.bind(Prompt),
+			// Prompt.askColor.bind(Prompt),
+			(cb) => cb('b'),
 			this.setColor.bind(this),
 
 			this.runQueue(this.gameLoop),

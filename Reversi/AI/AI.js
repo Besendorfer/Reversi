@@ -2,17 +2,35 @@
 
 const MinMaxAB = require('./MinMaxAB.js');
 const Player = require('./../Player/Player.js');
+const _ = require('lodash');
 
 class AI extends Player {
 	constructor() {
 		super(...arguments);
 
-		this.MinMaxAB = new MinMaxAB(this.boardGen(), this.heuristic.bind(this));
+		this.opponentColor = this.color === 'w' ? 'b' : 'w';
+		this.MinMaxAB = new MinMaxAB(this.boardGen.bind(this), this.heuristic.bind(this));
+	}
+
+	createTestBoard(board, discColor, discPlacement) {
+		let newBoard = null;
+
+		newBoard = _.cloneDeep(board);
+		newBoard.placeDisc(discColor, discPlacement);
+		newBoard.move = discPlacement;
+
+		return newBoard;
 	}
 
 	*boardGen(board, myTurn) {
-		newBoard = null; // TODO: generate next possible board
-		yield newBoard;
+		let discColor = myTurn ? this.color : this.opponentColor;
+
+		for (let i = 0; i < board.getTiles().length; i++) {
+			for (let j = 0; j < board.getTiles().length; j++) {
+				if (this.board.isValidMove(discColor, [ i, j ]))
+					yield this.createTestBoard(board, discColor, [ i, j ]);
+			}
+		}
 	}
 
 	heuristic(board) {
@@ -24,9 +42,15 @@ class AI extends Player {
 	}
 
 	takeTurn(cb) {
-		// TODO: actually take turn
-		this.board.placeDisc(this.color, [0, 0]);
-		cb();
+		console.log('\n' + this.color + ': With my intellect, I choose this spot');
+
+		this.MinMaxAB.beginCalc((bestNode) => {
+			clearTimeout(this.timeout);
+			this.board.placeDisc(this.color, bestNode.move);
+			cb();
+		}, this.board);
+
+		this.timeout = setTimeout(() => { console.log('times up!'); this.MinMaxAB.stopCalc() }, 5000);
 	}
 }
 

@@ -29,6 +29,21 @@ class Board {
 			}, '\n');
 		}, '');
 	}
+
+	validMove(color, location) {
+		// TODO: return if valid move
+		return true;
+	}
+
+	placeDisc(color, location) {
+		// TODO: place a disc and flip in-betweens
+		this.currentTurn = this.currentTurn === 'b' ? 'w' : 'b';
+	}
+
+	isGameOver() {
+		// TODO: return if game is over
+		return false;
+	}
 }
 
 module.exports = Board;

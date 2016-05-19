@@ -35,18 +35,15 @@ class AI extends Player {
 	}
 
 	heuristic(board) {
-		return board.tiles.reduce(function (total, row) {
-			return total + row.reduce(function (total, tile) {
-				return total + tile.getValue();
-			}, 0);
-		}, 0);
+		return board.numDiscs[this.color] - board.numDiscs[this.opponentColor];
 	}
 
 	takeTurn(cb) {
 		console.log('\n' + this.color + ': Begins thinking');
 		let maxDepth = this.depth;
 		if (this.depth === 0) {
-			maxDepth = this.board.dimension * this.board.dimension - this.board.numDiscs;
+			maxDepth = (this.board.dimension * this.board.dimension) -
+			           (this.board.numDiscs.b + this.board.numDiscs.w);
 		}
 		console.log('Depth limit: ' + maxDepth);
 		this.MinMaxAB.beginCalc((bestNode) => {

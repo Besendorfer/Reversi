@@ -17,7 +17,10 @@ class Board {
 			});
 		});
 
-		this.numDiscs = 0;
+		this.numDiscs = {
+			b: 0,
+			w: 0
+		};
 
 		this.currentTurn = 'b';
 	}
@@ -57,7 +60,9 @@ class Board {
 
 		let capturable = this.isCapturable(discColor, nextLoc, direction, capture);
 		if (capturable && capture) {
+			this.numDiscs[tile.color]--;
 			tile.color = discColor;
+			this.numDiscs[discColor]++;
 		}
 		return capturable;
 	}
@@ -98,13 +103,13 @@ class Board {
 		if (this.tiles[loc[0]][loc[1]].color != null)
 			return false;
 
-		if (this.numDiscs < 4) {
+		if (this.numDiscs.b + this.numDiscs.w < 4) {
 			let isCenter =  ((loc[0] === this.dimension / 2 || loc[0] === this.dimension / 2 - 1) &&
 			                 (loc[1] === this.dimension / 2 || loc[1] === this.dimension / 2 - 1));
 
 			if (isCenter && capture) {
 				this.tiles[loc[0]][loc[1]].color = discColor;
-				this.numDiscs++;
+				this.numDiscs[discColor]++;
 			}
 
 			return isCenter;
@@ -124,7 +129,7 @@ class Board {
 
 		if (validMove && capture) {
 			this.tiles[loc[0]][loc[1]].color = discColor;
-			this.numDiscs++;
+			this.numDiscs[discColor]++;
 		}
 
 		return validMove;

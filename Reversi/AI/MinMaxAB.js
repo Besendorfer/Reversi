@@ -12,10 +12,11 @@ class MinMaxAB {
 		return this.rootWork.bestChild && this.rootWork.bestChild.node;
 	}
 
-	beginCalc(cb, rootNode) {
+	beginCalc(cb, rootNode, depthLimit) {
+		this.depthLimit = depthLimit;
 		this.onStop = cb;
 		this.workStack = [];
-		this.rootWork = new Work(this.nodeGen, null, rootNode);
+		this.rootWork = new Work(this.nodeGen, null, rootNode, this.depthLimit);
 		this.workStack.push(this.rootWork);
 		this.calc();
 	}
@@ -60,22 +61,22 @@ class MinMaxAB {
 
 class Work {
 
-	constructor(nodeGen, parent, node) {
+	constructor(nodeGen, parent, node, depth) {
 		this.parent = parent;
 		this.node = node;
+		this.depth = depth;
 		this.hadChild = false;
 		this.inheritValues(parent || Work.DEFAULT);
 
 		this.children = (function* getChildren() {
 			for (let childNode of nodeGen(this.node, this.myTurn)) {
 				this.hadChild = true;
-				yield new Work(nodeGen, this, childNode);
+				yield new Work(nodeGen, this, childNode, this.depth - 1);
 			}
 		}.bind(this))();
 	}
 
 	inheritValues(parent) {
-		this.depth = parent.depth - 1;
 		this.myTurn = !parent.myTurn;
 		this.α = parent.α;
 		this.β = parent.β;
@@ -113,8 +114,7 @@ class Work {
 Work.DEFAULT = {
 	myTurn: false,
 	α: Number.NEGATIVE_INFINITY,
-	β: Number.POSITIVE_INFINITY,
-	depth: 2
+	β: Number.POSITIVE_INFINITY
 };
 
 module.exports = MinMaxAB;

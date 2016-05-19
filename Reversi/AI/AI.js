@@ -5,9 +5,10 @@ const Player = require('./../Player/Player.js');
 const _ = require('lodash');
 
 class AI extends Player {
-	constructor() {
+	constructor(board, color, depth) {
 		super(...arguments);
 
+		this.depth = depth;
 		this.opponentColor = this.color === 'w' ? 'b' : 'w';
 		this.MinMaxAB = new MinMaxAB(this.boardGen.bind(this), this.heuristic.bind(this));
 	}
@@ -42,13 +43,14 @@ class AI extends Player {
 	}
 
 	takeTurn(cb) {
-		console.log('\n' + this.color + ': With my intellect, I choose this spot');
-
+		console.log('\n' + this.color + ': Begins thinking');
+		console.log('Depth limit: ' + (this.depth === 0 ? 'many' : this.depth));
 		this.MinMaxAB.beginCalc((bestNode) => {
 			clearTimeout(this.timeout);
+			console.log(this.color + ': With my intellect, I choose this spot');
 			this.board.placeDisc(this.color, bestNode.move);
 			cb();
-		}, this.board);
+		}, this.board, this.depth);
 
 		this.timeout = setTimeout(() => { console.log('times up!'); this.MinMaxAB.stopCalc() }, 5000);
 	}

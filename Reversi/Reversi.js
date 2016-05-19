@@ -94,26 +94,15 @@ class Reversi {
 	declareWinner(cb) {
 		console.log('---------------------');
 		console.log(this.board.toString());
-		let black = this.board.tiles.reduce(function (total, row) {
-			return total + row.reduce(function (total, tile) {
-				return total + (tile.color == 'b' ? 1 : 0);
-			}, 0);
-		}, 0);
 
-		let white = this.board.tiles.reduce(function (total, row) {
-			return total + row.reduce(function (total, tile) {
-				return total + (tile.color == 'w' ? 1 : 0);
-			}, 0);
-		}, 0);
-
-		if (white < black) {
+		if (this.board.numDiscs.w < this.board.numDiscs.b) {
 			console.log('Black wins!');
-		} else if (black < white) {
+		} else if (this.board.numDiscs.b < this.board.numDiscs.w) {
 			console.log('White wins!');
 		} else {
 			console.log('It\'s a tie!');
 		}
-		console.log('B: ' + black + ', W: ' + white);
+		console.log('B: ' + this.board.numDiscs.b + ', W: ' + this.board.numDiscs.w);
 		console.log('---------------------');
 		cb();
 	}

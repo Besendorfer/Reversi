@@ -1,7 +1,5 @@
 'use strict';
 
-const Tile = require('./Tile.js');
-
 class Board {
 	constructor(dimension) {
 		if (dimension > 10)
@@ -13,7 +11,7 @@ class Board {
 
 		this.tiles = Array.from({ length: dimension }).map((row, rIndex) => {
 			return	 Array.from({ length: dimension }).map((col, cIndex) => {
-				return new Tile();
+				return '.';
 			});
 		});
 
@@ -44,11 +42,11 @@ class Board {
 
 		let tile = this.tiles[loc[0]][loc[1]];
 		// Empty tile? Not valid.
-		if (tile.color == null)
+		if (tile === '.')
 			return false;
 
 		// Player disc? Valid!
-		if (tile.color === discColor) {
+		if (tile === discColor) {
 			return true;
 		}
 
@@ -60,8 +58,8 @@ class Board {
 
 		let capturable = this.isCapturable(discColor, nextLoc, direction, capture);
 		if (capturable && capture) {
-			this.numDiscs[tile.color]--;
-			tile.color = discColor;
+			this.numDiscs[tile]--;
+			this.tiles[loc[0]][loc[1]] = discColor;
 			this.numDiscs[discColor]++;
 		}
 		return capturable;
@@ -87,7 +85,8 @@ class Board {
 				loc: [r + dirRow[i], c + dirCol[i]]
 			};
 
-			if (this.tiles[adj.loc[0]][adj.loc[1]].color !== discColor) opponentAdjacent.push(adj);
+			if (this.tiles[adj.loc[0]][adj.loc[1]] !== discColor)
+				opponentAdjacent.push(adj);
 		}
 
 		return opponentAdjacent;
@@ -100,7 +99,7 @@ class Board {
 			loc[0] > max || loc[1] > max)
 			return false;
 
-		if (this.tiles[loc[0]][loc[1]].color != null)
+		if (this.tiles[loc[0]][loc[1]] !== '.')
 			return false;
 
 		if (this.numDiscs.b + this.numDiscs.w < 4) {
@@ -108,7 +107,7 @@ class Board {
 			                 (loc[1] === this.dimension / 2 || loc[1] === this.dimension / 2 - 1));
 
 			if (isCenter && capture) {
-				this.tiles[loc[0]][loc[1]].color = discColor;
+				this.tiles[loc[0]][loc[1]] = discColor;
 				this.numDiscs[discColor]++;
 			}
 
@@ -128,7 +127,7 @@ class Board {
 		}
 
 		if (validMove && capture) {
-			this.tiles[loc[0]][loc[1]].color = discColor;
+			this.tiles[loc[0]][loc[1]] = discColor;
 			this.numDiscs[discColor]++;
 		}
 

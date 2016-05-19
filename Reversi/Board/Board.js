@@ -4,6 +4,11 @@ const Tile = require('./Tile.js');
 
 class Board {
 	constructor(dimension) {
+		if (dimension > 10)
+			throw new BoardDimensionError('Must give a dimension 10 or less');
+		if (dimension % 2 !== 0)
+			throw new BoardDimensionError('Must give an even dimension.');
+
 		this.dimension = dimension;
 
 		this.tiles = Array.from({ length: dimension }).map((row, rIndex) => {

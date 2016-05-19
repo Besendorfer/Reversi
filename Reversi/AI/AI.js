@@ -27,7 +27,7 @@ class AI extends Player {
 
 		for (let i = 0; i < board.getTiles().length; i++) {
 			for (let j = 0; j < board.getTiles().length; j++) {
-				if (this.board.isValidMove(discColor, [ i, j ]))
+				if (board.isValidMove(discColor, [ i, j ]))
 					yield this.createTestBoard(board, discColor, [ i, j ]);
 			}
 		}

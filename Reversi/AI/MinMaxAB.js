@@ -9,14 +9,17 @@ class MinMaxAB {
 	}
 
 	getBestMove() {
-		return this.rootWork.bestChild && this.rootWork.bestChild.node;
+		let bestSoFar = this.finishedWork || this.rootWork;
+		return bestSoFar.bestChild && bestSoFar.bestChild.node;
 	}
 
-	beginCalc(cb, rootNode, depthLimit) {
+	beginCalc(cb, rootNode, depthLimit, dontStop) {
 		this.depthLimit = depthLimit;
+		this.dontStop = dontStop;
 		this.onStop = cb;
 		this.workStack = [];
 		this.rootWork = new Work(this.nodeGen, null, rootNode, this.depthLimit);
+		this.finishedWork = null;
 		this.workStack.push(this.rootWork);
 		this.calc();
 	}
@@ -24,7 +27,13 @@ class MinMaxAB {
 	calc() {
 		let work = this.workStack.pop();
 		if (work === undefined) {
-			this.stopCalc();
+			this.finishedWork = this.rootWork;
+			if (this.dontStop) {
+				process.stdout.write('\rI\'ve thought of ' + this.depthLimit + ' moves into the future');
+				this.beginCalc(this.onStop, this.rootWork.node, this.depthLimit + 1, true);
+			} else {
+				this.stopCalc();
+			}
 			return;
 		}
 

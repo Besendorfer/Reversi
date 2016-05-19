@@ -50,9 +50,9 @@ class AI extends Player {
 			console.log(this.color + ': With my intellect, I choose this spot');
 			this.board.placeDisc(this.color, bestNode.move);
 			cb();
-		}, this.board, this.depth);
+		}, this.board, this.depth, this.depth === 0);
 
-		this.timeout = setTimeout(() => { console.log('times up!'); this.MinMaxAB.stopCalc() }, 5000);
+		this.timeout = setTimeout(() => { console.log('\ntimes up!'); this.MinMaxAB.stopCalc() }, 500);
 	}
 }
 

@@ -37,6 +37,7 @@ class Reversi {
 			this.setColor.bind(this),
 
 			this.runQueue(this.gameLoop),
+			this.declareWinner.bind(this),
 
 			Prompt.askAgain.bind(Prompt)
 		];
@@ -88,6 +89,33 @@ class Reversi {
 			this.players.w.color = 'w';
 		}
 		return cb();
+	}
+
+	declareWinner(cb) {
+		console.log('---------------------');
+		console.log(this.board.toString());
+		let black = this.board.tiles.reduce(function (total, row) {
+			return total + row.reduce(function (total, tile) {
+				return total + (tile.color == 'b' ? 1 : 0);
+			}, 0);
+		}, 0);
+
+		let white = this.board.tiles.reduce(function (total, row) {
+			return total + row.reduce(function (total, tile) {
+				return total + (tile.color == 'w' ? 1 : 0);
+			}, 0);
+		}, 0);
+
+		if (white < black) {
+			console.log('Black wins!');
+		} else if (black < white) {
+			console.log('White wins!');
+		} else {
+			console.log('It\'s a tie!');
+		}
+		console.log('B: ' + black + ', W: ' + white);
+		console.log('---------------------');
+		cb();
 	}
 
 	reloop(queue) {

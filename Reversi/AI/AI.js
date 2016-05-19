@@ -62,7 +62,10 @@ class AI extends Player {
 			cb();
 		}, this.board, this.depth, maxDepth);
 
-		this.timeout = setTimeout(() => { console.log('\ntimes up!'); this.MinMaxAB.stopCalc() }, 500);
+		this.timeout = setTimeout(() => {
+			console.log('\ntimes up!');
+			this.MinMaxAB.stopCalc()
+		}, 5000);
 	}
 }
 

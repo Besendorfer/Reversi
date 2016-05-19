@@ -69,7 +69,7 @@ class Reversi {
 		let PlayerOneClass = numPlayers === 2 ? Human : AI;
 		let PlayerTwoClass = numPlayers !== 0 ? Human : AI;
 
-		this.players.b = new PlayerOneClass(this.board, 'b', 2);
+		this.players.b = new PlayerOneClass(this.board, 'b', 5);
 		this.players.w = new PlayerTwoClass(this.board, 'w', 0);
 
 		console.log('Player 1 is ' + this.players.b.constructor.name);

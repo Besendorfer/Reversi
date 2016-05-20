@@ -71,9 +71,12 @@ class Prompt {
 
 	static askPiece(cb, currentTurn) {
 		readline.question(currentTurn + ': Where would you like to place your piece? [x,y] ', (answer) => {
+			if (answer.toLowerCase() == 'pass' || answer.toLowerCase() == 'p')
+				return cb('pass');
+
 			answer = answer.split(',').map((s) => Number.parseInt(s, 10));
 			if (answer.length === 2 && !isNaN(answer[0]) && !isNaN(answer[1]))
-				return cb(answer[0], answer[1]);
+				return cb([answer[0], answer[1]]);
 
 			console.error('Invalid location!');
 			return this.askPiece(cb);

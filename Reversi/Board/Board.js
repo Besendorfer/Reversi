@@ -153,7 +153,7 @@ class Board {
 	}
 
 	placeDisc(color, loc) {
-		let succeeded = this.isValidMove(color, loc, true);
+		let succeeded = loc === 'pass' || this.isValidMove(color, loc, true);
 		if (succeeded)
 			this.changeTurn();
 

@@ -30,6 +30,7 @@ class AI extends Player {
 					yield this.createTestBoard(board, discColor, [ i, j ]);
 			}
 		}
+		yield this.createTestBoard(board, discColor, 'pass');
 	}
 
 	heuristic(board) {
@@ -51,7 +52,7 @@ class AI extends Player {
 				console.log(this.color + ': I cannot move! I pass.');
 				this.board.changeTurn();
 			} else {
-				console.log(this.color + ': With my intellect, I choose this spot');
+				console.log(this.color + ': With my intellect, I choose ' + bestNode.move);
 				this.board.placeDisc(this.color, bestNode.move);
 			}
 			cb();

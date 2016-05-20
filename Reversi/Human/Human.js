@@ -9,8 +9,8 @@ class Human extends Player {
 	}
 
 	takeTurn(cb) {
-		Prompt.askPiece((x, y) => {
-			if (!this.board.placeDisc(this.color, [x, y])) {
+		Prompt.askPiece((loc) => {
+			if (!this.board.placeDisc(this.color, loc)) {
 				console.error('Invalid location');
 				return this.takeTurn(cb);
 			}

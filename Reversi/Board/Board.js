@@ -9,11 +9,11 @@ class Board {
 
 		this.dimension = dimension;
 
-		this.tiles = Array.from({ length: dimension }).map((row, rIndex) => {
-			return	 Array.from({ length: dimension }).map((col, cIndex) => {
-				return '.';
-			});
-		});
+		let row = '.'.repeat(dimension).split('');
+		this.tiles = new Array(8);
+		for (var i = 0; i < dimension; i++) {
+			this.tiles[i] = row.slice();
+		}
 
 		this.numDiscs = {
 			b: 0,

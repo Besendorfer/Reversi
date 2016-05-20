@@ -23,6 +23,24 @@ class Board {
 		this.currentTurn = 'b';
 	}
 
+	clone() {
+		let newBoard = Object.create(Board.prototype);
+		newBoard.dimension = this.dimension;
+		newBoard.tiles = new Array(this.dimension);
+		for (var i = 0; i < this.dimension; i++) {
+			newBoard.tiles[i] = new Array(this.dimension);
+			for (var j = 0; j < this.dimension; j++) {
+				newBoard.tiles[i][j] = this.tiles[i][j];
+			}
+		}
+		newBoard.numDiscs = {
+			b: this.numDiscs.b,
+			w: this.numDiscs.w
+		};
+		newBoard.currentTurn = this.currentTurn; 
+		return newBoard;
+	}
+
 	toString() {
 		return this.tiles.reduce(function (total, row, rowi) {
 			return total + row.reduce(function (total, tile) {

@@ -2,7 +2,6 @@
 
 const MinMaxAB = require('./MinMaxAB.js');
 const Player = require('./../Player/Player.js');
-const _ = require('lodash');
 
 class AI extends Player {
 	constructor(board, color, depth) {
@@ -13,10 +12,9 @@ class AI extends Player {
 		this.MinMaxAB = new MinMaxAB(this.boardGen.bind(this), this.heuristic.bind(this));
 	}
 
-	createTestBoard(board, discColor, discPlacement) {
-		let newBoard = null;
+	createTestBoard(oldBoard, discColor, discPlacement) {
 
-		newBoard = _.cloneDeep(board);
+		let newBoard = oldBoard.clone();
 		newBoard.placeDisc(discColor, discPlacement);
 		newBoard.move = discPlacement;
 

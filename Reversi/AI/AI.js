@@ -30,11 +30,15 @@ class AI extends Player {
 					yield this.createTestBoard(board, discColor, [ i, j ]);
 			}
 		}
-		yield this.createTestBoard(board, discColor, 'pass');
+		// if(board.numPasses < 50)
+		// 	yield this.createTestBoard(board, discColor, 'pass');
 	}
 
 	heuristic(board) {
-		return board.numDiscs[this.color] - board.numDiscs[this.opponentColor];
+		// if (board.numDiscs[this.color] + board.numDiscs[this.opponentColor] < 40)
+		// 	return board.numDiscs[this.opponentColor] - board.numDiscs[this.color];
+		// else
+			return board.numDiscs[this.color] - board.numDiscs[this.opponentColor];
 	}
 
 	takeTurn(cb) {
@@ -52,6 +56,8 @@ class AI extends Player {
 				console.log(this.color + ': I cannot move! I pass.');
 				this.board.changeTurn();
 			} else {
+				if (bestNode.move === 'pass') this.board.numPasses++;
+				else this.board.numPasses = 0;
 				console.log(this.color + ': With my intellect, I choose ' + bestNode.move);
 				this.board.placeDisc(this.color, bestNode.move);
 			}

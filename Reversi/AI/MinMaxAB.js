@@ -100,6 +100,11 @@ class Work {
 		if (this.χ == newχ && Number.isFinite(newχ))
 			return this.χ;
 
+		// console.log(this);
+		// console.log(this.node);
+
+		if (this.node.move)
+			newχ += this.node.locHeuristic[this.node.move[0]][this.node.move[1]]
 		this[['α', 'β'][+!this.myTurn]] = newχ;
 		this.propagate();
 		return newχ;

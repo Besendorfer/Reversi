@@ -21,6 +21,16 @@ class Board {
 		};
 
 		this.currentTurn = 'b';
+		this.numPasses = 0;
+
+		this.locHeuristic = [[99,  -8,  8,  6,  6,  8,  -8, 99],
+							 [-8, -24, -4, -3, -3, -4, -24, -8],
+							 [ 8,  -4,  7,  4,  4,  7,  -4,  8],
+							 [ 6,  -3,  4,  0,  0,  4,  -3,  6],
+							 [ 6,  -3,  4,  0,  0,  4,  -3,  6],
+							 [ 8,  -4,  7,  4,  4,  7,  -4,  8],
+							 [-8, -24, -4, -3, -3, -4, -24, -8],
+							 [99,  -8,  8,  6,  6,  8,  -8, 99]];
 	}
 
 	clone() {
@@ -37,7 +47,9 @@ class Board {
 			b: this.numDiscs.b,
 			w: this.numDiscs.w
 		};
-		newBoard.currentTurn = this.currentTurn; 
+		newBoard.currentTurn = this.currentTurn;
+		newBoard.numPasses = this.numPasses;
+		newBoard.locHeuristic = this.locHeuristic;
 		return newBoard;
 	}
 

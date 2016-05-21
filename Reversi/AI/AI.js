@@ -4,10 +4,11 @@ const MinMaxAB = require('./MinMaxAB.js');
 const Player = require('./../Player/Player.js');
 
 class AI extends Player {
-	constructor(board, color, depth) {
+	constructor(board, color, depth, time) {
 		super(...arguments);
 
 		this.depth = depth;
+		this.time = time;
 		this.opponentColor = this.color === 'w' ? 'b' : 'w';
 		this.MinMaxAB = new MinMaxAB(this.boardGen.bind(this), this.heuristic.bind(this));
 	}
@@ -30,6 +31,8 @@ class AI extends Player {
 					yield this.createTestBoard(board, discColor, [ i, j ]);
 			}
 		}
+		if (board.canPass())
+			yield this.createTestBoard(board, discColor, 'pass');
 		// if(board.numPasses < 50)
 		// 	yield this.createTestBoard(board, discColor, 'pass');
 	}
@@ -54,7 +57,7 @@ class AI extends Player {
 			clearTimeout(this.timeout);
 			if (bestNode == null) {
 				console.log(this.color + ': I cannot move! I pass.');
-				this.board.changeTurn();
+				this.board.placeDisc(this.color, 'pass');
 			} else {
 				if (bestNode.move === 'pass') this.board.numPasses++;
 				else this.board.numPasses = 0;

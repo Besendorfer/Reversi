@@ -28,9 +28,11 @@ class Prompt {
 	}
 
 	static askRange(cb, question, range) {
-		let questionHint = question + ' [' + range[0] + '-' + range[1] + '] ';
+		let questionHint = question + ' [' + range[0] + ' - ' + range[1] + '] ';
 		return readline.question(questionHint, (answer) => {
 			let answerNum = Number.parseInt(answer, 10);
+			if (answer.toLowerCase() === "infinity")
+				answerNum = Number.POSITIVE_INFINITY;
 			if (!Number.isNaN(answerNum) &&
 				range[0] <= answerNum && answerNum <= range[1])
 				return cb(answerNum);

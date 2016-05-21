@@ -4,10 +4,11 @@ const MinMaxAB = require('./MinMaxAB.js');
 const Player = require('./../Player/Player.js');
 
 class AI extends Player {
-	constructor(board, color, depth) {
+	constructor(board, color, depth, time) {
 		super(...arguments);
 
 		this.depth = depth;
+		this.time = time;
 		this.opponentColor = this.color === 'w' ? 'b' : 'w';
 		this.MinMaxAB = new MinMaxAB(this.boardGen.bind(this), this.heuristic.bind(this));
 	}

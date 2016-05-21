@@ -69,13 +69,43 @@ class Reversi {
 		let PlayerOneClass = numPlayers === 2 ? Human : AI;
 		let PlayerTwoClass = numPlayers !== 0 ? Human : AI;
 
-		this.players.b = new PlayerOneClass(this.board, 'b', 5);
-		this.players.w = new PlayerTwoClass(this.board, 'w', 0);
+		let getDepth = (cb, ...args) => {
+			Prompt.askRange((answer) => cb(...(args.concat([answer]))),
+			'How deep should I look? (0 = variable) ',
+			[0, this.board.dimension * this.board.dimension]);
+		};
 
-		console.log('Player 1 is ' + this.players.b.constructor.name);
-		console.log('Player 2 is ' + this.players.w.constructor.name);
+		let getTime = (cb, ...args) => {
+			Prompt.askRange((answer) => cb(...(args.concat([answer]))),
+			'How long should I think (ms)?',
+			[1, Number.POSITIVE_INFINITY]);
+		};
 
-		return cb();
+		let initPlayers = (cb, d1, t1, d2, t2) => {
+			this.players.b = new PlayerOneClass(this.board, 'b', d1, t1);
+			this.players.w = new PlayerTwoClass(this.board, 'w', d2, t2);
+
+			console.log('Player 1 is ' + this.players.b.constructor.name);
+			console.log('Player 2 is ' + this.players.w.constructor.name);
+
+			return cb();
+		};
+
+		let queue = [];
+		if (PlayerOneClass == AI) {
+			queue.push((cb, ...args) => {console.log('AI player:'); cb(...args)});
+			queue.push(getDepth);
+			queue.push(getTime);
+		}
+
+		if (PlayerTwoClass) {
+			queue.push((cb, ...args) => {console.log('Second AI player:'); cb(...args)});
+			queue.push(getDepth);
+			queue.push(getTime);
+		}
+
+		queue.push(initPlayers);
+		this.runQueue(queue)(cb);
 	}
 
 	setColor(cb, playerOneColor) {

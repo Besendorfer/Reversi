@@ -21,6 +21,7 @@ class Board {
 		};
 
 		this.currentTurn = 'b';
+		this.passedLastTurn = false;
 	}
 
 	clone() {
@@ -110,6 +111,10 @@ class Board {
 		return opponentAdjacent;
 	}
 
+	canPass() {
+		return this.numDiscs.b + this.numDiscs.w >= 4 && !this.passedLastTurn;
+	}
+
 	isValidMove(discColor, loc, capture = false) {
 		let min = 0;
 		let max = this.dimension - 1;
@@ -154,8 +159,10 @@ class Board {
 
 	placeDisc(color, loc) {
 		let succeeded = loc === 'pass' || this.isValidMove(color, loc, true);
-		if (succeeded)
+		if (succeeded) {
+			this.passedLastTurn = loc === 'pass';
 			this.changeTurn();
+		}
 
 		return succeeded;
 	}
